@@ -7,10 +7,14 @@ import nlp.fsm.concrete._
 
 class RecursiveFSMSuite extends FlatSpec with Matchers with SheeptalkBehaviours {
 
-  "Recursive sheeptalk"                   should behave like sheeptalkMatcher(new RecursiveSheeptalk      )
-  "Non-deterministic recursive sheeptalk" should behave like sheeptalkMatcher(new WeirdRecursiveSheeptalk )
-  "Loop sheeptalk"                        should behave like sheeptalkMatcher(new LoopSheeptalk           )
-  "Non-deterministic loop sheeptalk"      should behave like sheeptalkMatcher(new WeirdLoopSheeptalk      )
+  "Recursive sheeptalk"                            should behave like sheeptalkMatcher(new RecursiveSheeptalk      )
+  "Non-deterministic recursive sheeptalk"          should behave like sheeptalkMatcher(new WeirdRecursiveSheeptalk )
+  
+  "Depth first Loop sheeptalk"                     should behave like sheeptalkMatcher(new DFLoopSheeptalk           )
+  "Non-deterministic depth-first loop sheeptalk"   should behave like sheeptalkMatcher(new WeirdDFLoopSheeptalk      )
+
+  "Breadth first Loop sheeptalk"                   should behave like sheeptalkMatcher(new BFLoopSheeptalk           )
+  "Non-deterministic breadth-first loop sheeptalk" should behave like sheeptalkMatcher(new WeirdBFLoopSheeptalk      )
 
 }
 

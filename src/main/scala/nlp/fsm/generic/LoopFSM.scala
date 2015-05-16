@@ -57,7 +57,7 @@ trait LoopFSM extends FSM {
 }
 
 /**
- * Backed with a LIFO stack, this FSM performs depth-first search over the state space.
+ * Backed by a LIFO stack, this FSM performs depth-first search over the state space.
  */
 trait DepthFirstLoopFSM extends LoopFSM {
 
@@ -73,5 +73,25 @@ trait DepthFirstLoopFSM extends LoopFSM {
    * Retrieve the next state and its input to analyze.
    */
   def dequeue(): Option[SearchState] = if (stack.isEmpty) None else Some(stack.pop())
+
+}
+
+/**
+ * Backed by a FIFO queue, this FSM performs breadth-first search over the state space.
+ */
+trait BreadthFirstLoopFSM extends LoopFSM {
+
+  val queue = collection.mutable.Queue[SearchState]()
+
+  /**
+   * Push a state and an input it will receive to the
+   * state space search queue.
+   */
+  def enqueue(state: State, tokenIndex: Int): Unit = queue enqueue state -> tokenIndex
+
+  /**
+   * Retrieve the next state and its input to analyze.
+   */
+  def dequeue(): Option[SearchState] = if (queue.isEmpty) None else Some(queue.dequeue())
 
 }
