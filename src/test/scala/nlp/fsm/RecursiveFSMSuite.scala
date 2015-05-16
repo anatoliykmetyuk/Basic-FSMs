@@ -8,6 +8,7 @@ import nlp.fsm.concrete._
 class RecursiveFSMSuite extends FlatSpec with Matchers with SheeptalkBehaviours {
 
   "Recursive sheeptalk" should behave like sheeptalkMatcher(new RecursiveSheeptalk)
+  "Non-deterministic recursive sheeptalk" should behave like sheeptalkMatcher(new WeirdRecursiveSheeptalk)
 
 }
 
