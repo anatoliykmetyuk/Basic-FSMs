@@ -66,5 +66,5 @@ trait WeirdSheeptalk extends Sheeptalk {
   )
 }
 
-class RecursiveSheeptalk      extends Sheeptalk with RecursiveFSM
+class RecursiveSheeptalk      extends Sheeptalk      with RecursiveFSM
 class WeirdRecursiveSheeptalk extends WeirdSheeptalk with RecursiveFSM
