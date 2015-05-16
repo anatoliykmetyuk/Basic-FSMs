@@ -1,0 +1,1 @@
+Final state machine. Designed to accept strings that represent time. Like "March 25th", "2 days from today" etc.
