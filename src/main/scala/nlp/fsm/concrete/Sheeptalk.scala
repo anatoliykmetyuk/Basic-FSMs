@@ -68,3 +68,6 @@ trait WeirdSheeptalk extends Sheeptalk {
 
 class RecursiveSheeptalk      extends Sheeptalk      with RecursiveFSM
 class WeirdRecursiveSheeptalk extends WeirdSheeptalk with RecursiveFSM
+
+class LoopSheeptalk      extends Sheeptalk with DepthFirstLoopFSM
+class WeirdLoopSheeptalk extends Sheeptalk with DepthFirstLoopFSM
