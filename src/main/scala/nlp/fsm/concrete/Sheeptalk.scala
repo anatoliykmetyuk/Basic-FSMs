@@ -18,9 +18,9 @@ trait Sheeptalk extends FSM {
 
   def initial: State = INITIAL
 
-  def tokenize(input: String): Seq[Token] = input.toCharArray
+  def tokenize(input: String): List[Token] = input.toList
 
-  def nextState(current: State, token: Token): Option[State] = {
+  def nextStates(current: State, token: Token): Seq[State] = {
     val next = current match {
       case INITIAL if token == 'b' => B
       case B       if token == 'a' => A
@@ -29,7 +29,7 @@ trait Sheeptalk extends FSM {
       case _                       => MISMATCH
     }
 
-    if (next != MISMATCH) Some(next) else None
+    if (next != MISMATCH) Seq(next) else Nil
   }
 
   def isTerminal(state: State): Boolean = state == FINAL

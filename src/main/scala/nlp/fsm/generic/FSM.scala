@@ -16,13 +16,13 @@ trait FSM {
   def initial: State
 
   /** Extracts tokens to match on from the given string. */
-  def tokenize(input: String): Seq[Token]
+  def tokenize(input: String): List[Token]
 
   /**
    * Generates next state given current state and
    * the input token the machine is about to consume in this state.
    */
-  def nextState(current: State, token: Token): Option[State]
+  def nextStates(current: State, token: Token): Seq[State]
 
   /**
    * Whether this is a terminal state.
