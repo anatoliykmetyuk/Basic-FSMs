@@ -5,7 +5,7 @@ import org.scalatest._
 import nlp.fsm.generic._
 import nlp.fsm.concrete._
 
-class FSMSuite extends FlatSpec with Matchers with SampleFSMsBehavioursComponent {
+class FSMSuite extends FlatSpec with Matchers with SheeptalkBehavioursComponent {
 
   SheeptalkBehaviour.checkAll (
     "Recursive sheeptalk"                            -> { () => new RecursiveSheeptalk      }     
@@ -44,7 +44,7 @@ trait FSMBehavioursComponent {this: FlatSpec with Matchers =>
 
 }
 
-trait SampleFSMsBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec with Matchers =>
+trait SheeptalkBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec with Matchers =>
 
   object SheeptalkBehaviour extends FSMBehaviours {
     val matches = Seq(
