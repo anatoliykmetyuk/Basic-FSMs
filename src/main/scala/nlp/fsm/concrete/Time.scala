@@ -19,10 +19,22 @@ trait Time extends FSM
   val stateMap: Map[(State, Token), Seq[State]] = Map[(State, Seq[Token]), Seq[State]](
     1 -> Month    -> 2
   , 2 -> DigitAny -> 3
+
+  , 1 -> DigitSufixed -> 5
+  , 1 -> Seq("the")   -> 6
+  , 6 -> DigitSufixed -> 5
+
+  , 5 -> Seq("of")    -> 8
+  
+  , 8 -> Month          -> 9
+  , 8 -> MonthWithComma -> 10
+
+  , 10 -> Anything -> 11
+  , 11 -> Anything -> 11
   ).flatMap {case ((s, tokens), sx) => tokens.map {t => s -> t -> sx}}
 
   val initial   = 1
-  def terminals = Set(3, 4, 9, 10, 11)
+  def terminals = Set(3, 9, 11)
 
 }
 
@@ -31,6 +43,7 @@ trait TimeTokens {this: Time =>
   val Month: Seq[Token] =
     "January February March April May June July August September October November December".toLowerCase.split(" ")
   
+  val MonthWithComma: Seq[Token] = Month.map(_ + ",")
 
   val Digit1: Seq[Token] = "1 21 31".split(" ")
   val Digit2: Seq[Token] = "2 22"   .split(" ")
@@ -45,6 +58,8 @@ trait TimeTokens {this: Time =>
   val DigitRaw     : Seq[Token] = Digit1    ++ Digit2    ++ Digit3    ++ Digit4
   val DigitSufixed : Seq[Token] = DigitSuf1 ++ DigitSuf2 ++ DigitSuf3 ++ DigitSuf4
   val DigitAny     : Seq[Token] = DigitRaw  ++ DigitSufixed
+
+  val Anything = Seq("omg")
 
 }
 
