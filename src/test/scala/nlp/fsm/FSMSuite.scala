@@ -5,31 +5,59 @@ import org.scalatest._
 import nlp.fsm.generic._
 import nlp.fsm.concrete._
 
-class FSMSuite extends FlatSpec with Matchers with SheeptalkBehaviours {
+class FSMSuite extends FlatSpec with Matchers with SampleFSMsBehavioursComponent {
 
-  "Recursive sheeptalk"                            should behave like sheeptalkMatcher(new RecursiveSheeptalk      )
-  "Non-deterministic recursive sheeptalk"          should behave like sheeptalkMatcher(new WeirdRecursiveSheeptalk )
-  
-  "Depth first Loop sheeptalk"                     should behave like sheeptalkMatcher(new DFLoopSheeptalk           )
-  "Non-deterministic depth-first loop sheeptalk"   should behave like sheeptalkMatcher(new WeirdDFLoopSheeptalk      )
+  SheeptalkBehaviour.checkAll (
+    "Recursive sheeptalk"                            -> { () => new RecursiveSheeptalk      }     
+  , "Non-deterministic recursive sheeptalk"          -> { () => new WeirdRecursiveSheeptalk }
+    
+  , "Depth first Loop sheeptalk"                     -> { () => new DFLoopSheeptalk         }        
+  , "Non-deterministic depth-first loop sheeptalk"   -> { () => new WeirdDFLoopSheeptalk    }   
 
-  "Breadth first Loop sheeptalk"                   should behave like sheeptalkMatcher(new BFLoopSheeptalk           )
-  "Non-deterministic breadth-first loop sheeptalk" should behave like sheeptalkMatcher(new WeirdBFLoopSheeptalk      )
+  , "Breadth first Loop sheeptalk"                   -> { () => new BFLoopSheeptalk         }        
+  , "Non-deterministic breadth-first loop sheeptalk" -> { () => new WeirdBFLoopSheeptalk    }   
+  )
 
 }
 
-trait SheeptalkBehaviours {this: FSMSuite =>
+trait FSMBehavioursComponent {this: FlatSpec with Matchers =>
 
-  def sheeptalkMatcher(fsm: => FSM) {
-    def fMatch(in: String, matches: Boolean = true) = fsm(in) shouldBe matches
+  trait FSMBehaviours {
+    val matches   : Seq[String]
+    val notMatches: Seq[String]
 
-    it should "match ba!"      in fMatch("ba!"     )
-    it should "match baa!"     in fMatch("baa!"    )
-    it should "match baaaaaa!" in fMatch("baaaaaa!")
 
-    it should "not match aba!" in fMatch("aba!", false)
-    it should "not match baaa" in fMatch("baaa", false)
-    it should "not match b!"   in fMatch("b!"  , false)
+    def behaviour(fsm: => FSM) {
+      def fMatch(in: String, matches: Boolean) = fsm(in) shouldBe matches
+
+      for (str <- matches   ) it should s"match $str"     in fMatch(str, true )
+      for (str <- notMatches) it should s"not match $str" in fMatch(str, false)
+    }
+
+    def check(name: String, constructor: => FSM) {
+      name should behave like behaviour(constructor)
+    }
+
+    def checkAll(nameConstructor: (String, () => FSM)*) =
+      for ((name, constructor) <- nameConstructor) check(name, constructor())
+  }
+
+}
+
+trait SampleFSMsBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec with Matchers =>
+
+  object SheeptalkBehaviour extends FSMBehaviours {
+    val matches = Seq(
+      "ba!"
+    , "baa!"
+    , "baaaaaa!"
+    )
+
+    val notMatches = Seq(
+      "aba!"
+    , "baaa"
+    , "b!"
+    )
   }
 
 }
