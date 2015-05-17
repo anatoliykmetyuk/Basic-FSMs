@@ -19,10 +19,10 @@ trait Time extends FSM
   , 2 -> DigitAny -> 3
 
   , 1 -> DigitSufixed             -> 5
-  , 1 -> {x: Token => x == "the"} -> 6
+  , 1 -> ("the": Predicate)       -> 6
   , 6 -> DigitSufixed             -> 5
 
-  , 5 -> {x: Token => x == "of"}  -> 8
+  , 5 -> ("of": Predicate)        -> 8
   
   , 8 -> Month          -> 9
   , 8 -> MonthWithComma -> 10
