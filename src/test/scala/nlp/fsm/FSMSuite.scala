@@ -24,7 +24,7 @@ trait FSMBehavioursComponent {this: FlatSpec with Matchers =>
 
   trait FSMBehaviours {
     val matches   : Seq[String]
-    val notMatches: Seq[String]
+    val notMatches: Seq[String] = Nil
 
 
     def behaviour(fsm: => FSM) {
@@ -47,17 +47,42 @@ trait FSMBehavioursComponent {this: FlatSpec with Matchers =>
 trait SheeptalkBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec with Matchers =>
 
   object SheeptalkBehaviour extends FSMBehaviours {
-    val matches = Seq(
+    override val matches = Seq(
       "ba!"
     , "baa!"
     , "baaaaaa!"
     )
 
-    val notMatches = Seq(
+    override val notMatches = Seq(
       "aba!"
     , "baaa"
     , "b!"
     )
+  }
+
+}
+
+trait TimeBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec with Matchers => 
+
+  object TimeBehaviours extends FSMBehaviours {
+
+    val matches = Seq(
+      "May 25th"
+    , "July 2nd"
+    , "January 21st"
+
+    , "25th of June"
+    , "21 of January, my birthday"
+
+    , "March 15"
+    , "the 22nd of November, Christmas"
+
+    // , "today"
+    // , "tomorrow"
+    // , "the day before yesterday"
+    // , "a week from today"
+    )
+
   }
 
 }
