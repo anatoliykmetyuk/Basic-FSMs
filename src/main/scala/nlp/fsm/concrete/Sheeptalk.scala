@@ -8,11 +8,7 @@ import nlp.fsm.generic._
  * Matches "sheeptalk" strings: /ba+!/
  * FSM: b-a-!
  */
-trait Sheeptalk extends FSM with FSMHelpers {
-  import Implicits._
-
-  type State = Int
-  type Token = Char
+trait Sheeptalk extends FSM with FSMMultiStateImplicits with FSMCharToken with FSMIntState {
 
   // Possible states
   val INITIAL  =  0
@@ -30,14 +26,8 @@ trait Sheeptalk extends FSM with FSMHelpers {
   , A       -> '!' -> FINAL
   )
 
-  def initial: State = INITIAL
-
-  def tokenize(input: String): List[Token] = input.toList
-
-  def nextStates(current: State, token: Token): Seq[State] =
-    stateMap.get(current -> token).getOrElse(Nil)
-
-  def isTerminal(state: State): Boolean = state == FINAL
+  val initial  :     State  = INITIAL
+  val terminals: Set[State] = Set(FINAL)
 
 }
 
@@ -46,7 +36,6 @@ trait Sheeptalk extends FSM with FSMHelpers {
  * loop over first 'a'.
  */
 trait WeirdSheeptalk extends Sheeptalk {
-  import Implicits._
 
   // We start numbering of the new states from 10 to avoid
   // collisions with the previous state. If this is not enough,

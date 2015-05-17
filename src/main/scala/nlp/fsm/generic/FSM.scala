@@ -15,29 +15,32 @@ trait FSM {
   /** Initial state of this FSM. */
   def initial: State
 
+  /** Terminal states of the FSM. */
+  def terminals: Set[State]
+
   /** Extracts tokens to match on from the given string. */
   def tokenize(input: String): List[Token]
+
+  /**
+   * A map that defines what transitions are possible
+   * given the current state and an input to the machine in this state.
+   */
+  def stateMap: Map[(State, Token), Seq[State]]
 
   /**
    * Generates next state given current state and
    * the input token the machine is about to consume in this state.
    */
-  def nextStates(current: State, token: Token): Seq[State]
+  def nextStates(current: State, token: Token): Seq[State] =
+    stateMap.get(current -> token).getOrElse(Nil)
 
   /**
    * Whether this is a terminal state.
    * If the FSM has no more input in the terminal state, it succeeds.
    */
-  def isTerminal(state: State): Boolean
+  def isTerminal(state: State): Boolean = terminals contains state
 
   /** Attempts to match the given input. */
   def apply(input: String): Boolean
 
-}
-
-trait FSMHelpers {this: FSM =>
-  object Implicits {
-    /** So that we don't need to wrap states in the map into a Seq(). */
-    implicit def state2seq(state: State): Seq[State] = Seq(state)
-  }
 }

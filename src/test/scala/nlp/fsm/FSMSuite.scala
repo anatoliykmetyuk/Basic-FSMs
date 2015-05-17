@@ -5,7 +5,10 @@ import org.scalatest._
 import nlp.fsm.generic._
 import nlp.fsm.concrete._
 
-class FSMSuite extends FlatSpec with Matchers with SheeptalkBehavioursComponent {
+class FSMSuite extends FlatSpec
+                  with Matchers
+                  with SheeptalkBehavioursComponent
+                  with TimeBehavioursComponent {
 
   SheeptalkBehaviour.checkAll (
     "Recursive sheeptalk"                            -> { () => new RecursiveSheeptalk      }     
@@ -16,6 +19,10 @@ class FSMSuite extends FlatSpec with Matchers with SheeptalkBehavioursComponent 
 
   , "Breadth first Loop sheeptalk"                   -> { () => new BFLoopSheeptalk         }        
   , "Non-deterministic breadth-first loop sheeptalk" -> { () => new WeirdBFLoopSheeptalk    }   
+  )
+
+  TimeBehaviours.checkAll(
+    "DFL Time" -> { () => new DFLTime }
   )
 
 }
