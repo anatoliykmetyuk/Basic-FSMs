@@ -34,3 +34,10 @@ trait FSM {
   def apply(input: String): Boolean
 
 }
+
+trait FSMHelpers {this: FSM =>
+  object Implicits {
+    /** So that we don't need to wrap states in the map into a Seq(). */
+    implicit def state2seq(state: State): Seq[State] = Seq(state)
+  }
+}

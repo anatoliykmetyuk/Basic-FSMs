@@ -8,7 +8,8 @@ import nlp.fsm.generic._
  * Matches "sheeptalk" strings: /ba+!/
  * FSM: b-a-!
  */
-trait Sheeptalk extends FSM {
+trait Sheeptalk extends FSM with FSMHelpers {
+  import Implicits._
 
   type State = Int
   type Token = Char
@@ -19,9 +20,6 @@ trait Sheeptalk extends FSM {
 
   val B        =  2
   val A        =  3
-
-  // So that we don't need to wrap states in the map into a Seq().
-  implicit def state2seq(state: State): Seq[State] = Seq(state)
 
   // A map that defines what transitions are possible
   // given the current state and an input to the machine in this state.
@@ -48,6 +46,7 @@ trait Sheeptalk extends FSM {
  * loop over first 'a'.
  */
 trait WeirdSheeptalk extends Sheeptalk {
+  import Implicits._
 
   // We start numbering of the new states from 10 to avoid
   // collisions with the previous state. If this is not enough,
