@@ -116,6 +116,7 @@ trait ExtendedTimeBehavioursComponent extends FSMBehavioursComponent {this: Flat
     , "3 days from now"
     , "8 weeks before yesterday"
     , "5 days after 21st of January"
+    , "5 days after the day after tomorrow"
     )
 
   }
