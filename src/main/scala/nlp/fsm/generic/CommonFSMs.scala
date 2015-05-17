@@ -46,3 +46,19 @@ trait FSMPredicateGeneration {this: FSM =>
     .flatMap {case ((_, _), next)  => next}
 
 }
+
+trait FSMStringPredicate {this: FSMStringToken with FSMPredicateGeneration =>
+
+  implicit def tokens2predicate(tokens: Seq[Token]): Predicate = tokens.contains(_)
+  implicit def string2predicate(str   : String    ): Predicate = str.toLowerCase.split(" ").toSeq
+
+  /**
+   * Predicate combinators
+   */
+  implicit class PredicateWrapper(p: Predicate) {
+    def || (another: Predicate): Predicate = x =>  p(x) || another(x)
+    def unary_!                : Predicate = x => !p(x)
+    def +(token: Token)        : Predicate = x =>  p(x.dropRight(token.size)) && x.takeRight(token.size) == token
+  }
+
+}

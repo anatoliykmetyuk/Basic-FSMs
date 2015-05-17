@@ -8,7 +8,8 @@ import nlp.fsm.concrete._
 class FSMSuite extends FlatSpec
                   with Matchers
                   with SheeptalkBehavioursComponent
-                  with TimeBehavioursComponent {
+                  with TimeBehavioursComponent
+                  with ExtendedTimeBehavioursComponent {
 
   SheeptalkBehaviour.checkAll (
     "Recursive sheeptalk"                            -> { () => new RecursiveSheeptalk      }     
@@ -22,7 +23,12 @@ class FSMSuite extends FlatSpec
   )
 
   TimeBehaviours.checkAll(
-    "DFL Time" -> { () => new DFLTime }
+    "DFL Time"          -> { () => new DFLTime         }
+  , "DFL Extended Time" -> { () => new DFLExtendedTime }
+  )
+
+  ExtendedTimeBehaviours.checkAll(
+    "DFL Extended Time" -> { () => new DFLExtendedTime }
   )
 
 }
@@ -30,7 +36,7 @@ class FSMSuite extends FlatSpec
 trait FSMBehavioursComponent {this: FlatSpec with Matchers =>
 
   trait FSMBehaviours {
-    val matches   : Seq[String]
+    val matches   : Seq[String] = Nil
     val notMatches: Seq[String] = Nil
 
 
@@ -83,11 +89,6 @@ trait TimeBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec wit
 
     , "March 15"
     , "the 22nd of November, Christmas"
-
-    // , "today"
-    // , "tomorrow"
-    // , "the day before yesterday"
-    // , "a week from today"
     )
 
     override val notMatches = Seq(
@@ -95,6 +96,26 @@ trait TimeBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec wit
     , "32 of Fabruary"
     , "January 42nd"
     , "21th of January"
+    )
+
+  }
+
+}
+
+trait ExtendedTimeBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec with Matchers =>
+
+  object ExtendedTimeBehaviours extends FSMBehaviours {
+
+    override val matches = Seq(
+      "today"
+    , "tomorrow"
+    , "the day before yesterday"
+    , "a week from today"
+    , "next Sunday"
+    , "the day after next Sunday"
+    , "3 days from now"
+    , "8 weeks before yesterday"
+    , "5 days after 21st of January"
     )
 
   }

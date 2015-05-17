@@ -4,20 +4,17 @@ import scala.language.implicitConversions
 
 import nlp.fsm.generic._
 
-/**
- * Matches "sheeptalk" strings: /ba+!/
- * FSM: b-a-!
- */
 trait Time extends FSM
               with FSMMultiStateImplicits
               with FSMIntState
               with FSMStringToken
               with FSMPredicateGeneration
+              with FSMStringPredicate
               with TimeTokens {
 
   // A map that defines what transitions are possible
   // given the current state and an input to the machine in this state.
-  val stateMap: Seq[((State, Predicate), Seq[State])] = Seq(
+  def stateMap: Seq[((State, Predicate), Seq[State])] = Seq(
     1 -> Month    -> 2
   , 2 -> DigitAny -> 3
 
@@ -39,19 +36,7 @@ trait Time extends FSM
 
 }
 
-trait TimeTokens {this: Time =>
-
-  private implicit def tokens2predicate(tokens: Seq[Token]): Predicate = tokens.contains(_)
-  private implicit def string2predicate(str   : String    ): Predicate = str.toLowerCase.split(" ").toSeq
-
-  /**
-   * Predicate combinators
-   */
-  private implicit class PredicateWrapper(p: Predicate) {
-    def || (another: Predicate): Predicate = x =>  p(x) || another(x)
-    def unary_!                : Predicate = x => !p(x)
-    def +(token: Token)        : Predicate = x =>  p(x.dropRight(token.size)) && x.takeRight(token.size) == token
-  }
+trait TimeTokens {this: Time with FSMStringPredicate =>
 
   val Month: Predicate =
     "January February March April May June July August September October November December"
