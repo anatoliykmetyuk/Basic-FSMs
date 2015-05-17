@@ -73,13 +73,13 @@ trait TimeBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec wit
 
   object TimeBehaviours extends FSMBehaviours {
 
-    val matches = Seq(
+    override val matches = Seq(
       "May 25th"
     , "July 2nd"
     , "January 21st"
 
     , "25th of June"
-    , "21 of January, my birthday"
+    , "21st of January, my birthday"
 
     , "March 15"
     , "the 22nd of November, Christmas"
@@ -88,6 +88,13 @@ trait TimeBehavioursComponent extends FSMBehavioursComponent {this: FlatSpec wit
     // , "tomorrow"
     // , "the day before yesterday"
     // , "a week from today"
+    )
+
+    override val notMatches = Seq(
+      "21 of January"
+    , "32 of Fabruary"
+    , "January 42nd"
+    , "21th of January"
     )
 
   }

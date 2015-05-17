@@ -8,7 +8,11 @@ import nlp.fsm.generic._
  * Matches "sheeptalk" strings: /ba+!/
  * FSM: b-a-!
  */
-trait Sheeptalk extends FSM with FSMMultiStateImplicits with FSMCharToken with FSMIntState {
+trait Sheeptalk extends FSM
+                   with FSMMultiStateImplicits
+                   with FSMCharToken
+                   with FSMIntState
+                   with FSMMapGeneration {
 
   // Possible states
   val INITIAL  =  0

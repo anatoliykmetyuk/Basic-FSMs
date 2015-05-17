@@ -22,17 +22,10 @@ trait FSM {
   def tokenize(input: String): List[Token]
 
   /**
-   * A map that defines what transitions are possible
-   * given the current state and an input to the machine in this state.
-   */
-  def stateMap: Map[(State, Token), Seq[State]]
-
-  /**
    * Generates next state given current state and
    * the input token the machine is about to consume in this state.
    */
-  def nextStates(current: State, token: Token): Seq[State] =
-    stateMap.get(current -> token).getOrElse(Nil)
+  def nextStates(current: State, token: Token): Seq[State]
 
   /**
    * Whether this is a terminal state.
