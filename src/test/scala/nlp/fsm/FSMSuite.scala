@@ -5,7 +5,7 @@ import org.scalatest._
 import nlp.fsm.generic._
 import nlp.fsm.concrete._
 
-class RecursiveFSMSuite extends FlatSpec with Matchers with SheeptalkBehaviours {
+class FSMSuite extends FlatSpec with Matchers with SheeptalkBehaviours {
 
   "Recursive sheeptalk"                            should behave like sheeptalkMatcher(new RecursiveSheeptalk      )
   "Non-deterministic recursive sheeptalk"          should behave like sheeptalkMatcher(new WeirdRecursiveSheeptalk )
@@ -18,7 +18,7 @@ class RecursiveFSMSuite extends FlatSpec with Matchers with SheeptalkBehaviours 
 
 }
 
-trait SheeptalkBehaviours {this: RecursiveFSMSuite =>
+trait SheeptalkBehaviours {this: FSMSuite =>
 
   def sheeptalkMatcher(fsm: => FSM) {
     def fMatch(in: String, matches: Boolean = true) = fsm(in) shouldBe matches
